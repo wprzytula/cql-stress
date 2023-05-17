@@ -18,6 +18,7 @@ use std::time::Duration;
 use anyhow::{Context, Result};
 use futures::future;
 use openssl::ssl::{SslContext, SslContextBuilder, SslFiletype, SslMethod, SslVerifyMode};
+use operation::lwt_update::LwtUpdateOperationFactory;
 use scylla::transport::session::PoolSize;
 use scylla::ExecutionProfile;
 use scylla::{transport::Compression, Session, SessionBuilder};
@@ -277,6 +278,12 @@ async fn create_operation_factory(
         }
         Mode::Scan => {
             let factory = ScanOperationFactory::new(session, stats, args).await?;
+            Ok(Arc::new(factory))
+        }
+        Mode::LwtUpdate => {
+            let workload_factory = create_workload_factory(&args)?;
+            let factory =
+                LwtUpdateOperationFactory::new(session, stats, workload_factory, args).await?;
             Ok(Arc::new(factory))
         }
     }

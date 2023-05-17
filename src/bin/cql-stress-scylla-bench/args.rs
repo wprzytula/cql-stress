@@ -545,6 +545,7 @@ pub enum Mode {
     CounterUpdate,
     CounterRead,
     Scan,
+    LwtUpdate,
 }
 
 fn parse_mode(s: &str) -> Result<Mode> {
@@ -554,6 +555,7 @@ fn parse_mode(s: &str) -> Result<Mode> {
         "counter_update" => Ok(Mode::CounterUpdate),
         "counter_read" => Ok(Mode::CounterRead),
         "scan" => Ok(Mode::Scan),
+        "lwt_update" => Ok(Mode::LwtUpdate),
         "" => Err(anyhow::anyhow!("mode needs to be specified")),
         _ => Err(anyhow::anyhow!("unknown mode: {}", s)),
     }
@@ -566,6 +568,7 @@ fn show_mode(m: &Mode) -> &'static str {
         Mode::CounterUpdate => "counter_update",
         Mode::CounterRead => "counter_read",
         Mode::Scan => "scan",
+        Mode::LwtUpdate => "lwt_update",
     }
 }
 

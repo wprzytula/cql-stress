@@ -1,4 +1,5 @@
 pub mod counter_update;
+pub mod lwt_update;
 pub mod read;
 pub mod scan;
 pub mod write;
